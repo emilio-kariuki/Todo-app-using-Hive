@@ -1,23 +1,23 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-import 'package:hives/Model/UserModel.dart';
-import 'package:flutter/material.dart';
 
-import '../../main.dart';
-import '../Boxes.dart';
+import '../Model/UserModel.dart';
+import '../main.dart';
 
-class Task extends StatefulWidget {
+class Complete extends StatefulWidget {
   final UserModel userModel;
-  const Task({Key? key, required this.userModel}) : super(key: key);
+  const Complete({Key? key, required this.userModel}) : super(key: key);
 
   @override
-  State<Task> createState() => _TaskState();
+  State<Complete> createState() => _CompleteState();
 }
 
-class _TaskState extends State<Task> {
+class _CompleteState extends State<Complete> {
+  FocusNode _focusNode = FocusNode();
+
   @override
   void initState() {
     super.initState();
@@ -61,6 +61,13 @@ class _TaskState extends State<Task> {
             });
       }
     });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _focusNode.dispose();
   }
 
   @override
@@ -119,7 +126,7 @@ class _TaskState extends State<Task> {
               RotatedBox(
                 quarterTurns: 3,
                 child: Text(
-                  widget.userModel.isCompleted == false ? "TASKS" : "COMPLETED",
+                  widget.userModel.isCompleted == false ? "TASKS" : "DONE",
                   style: GoogleFonts.lato(
                     textStyle: const TextStyle(
                         fontSize: 16,
@@ -145,12 +152,12 @@ class _TaskState extends State<Task> {
             bottom: 10,
             right: 10,
             child: InkWell(
-                onTap: () => taskCompleted(widget.userModel),
+                onTap: () => rollBack(widget.userModel),
                 child: const Icon(
-                  Icons.check,
+                  Icons.keyboard_backspace_rounded,
                   size: 20,
                   color: Colors.white,
-                )))
+                ))),
       ],
     );
   }
@@ -188,22 +195,22 @@ class _TaskState extends State<Task> {
         )));
   }
 
-  taskCompleted(UserModel task) {
-    task.isCompleted = true;
+  rollBack(UserModel task) {
+    task.isCompleted = false;
     task.save();
-    flutterLocalNotificationsPlugin.show(
-        0,
-        task.name,
-        "Task ${task.name} has been completed",
-        NotificationDetails(
-            android: AndroidNotificationDetails(
-          channel.id,
-          channel.name,
-          channelDescription: channel.description,
-          importance: Importance.high,
-          color: Colors.blue,
-          playSound: true,
-          icon: '@mipmap/logo',
-        )));
+    // flutterLocalNotificationsPlugin.show(
+    //     0,
+    //     task.name,
+    //     "Task ${task.name} has been rolled back",
+    //     NotificationDetails(
+    //         android: AndroidNotificationDetails(
+    //       channel.id,
+    //       channel.name,
+    //       channelDescription: channel.description,
+    //       importance: Importance.high,
+    //       color: Colors.blue,
+    //       playSound: true,
+    //       icon: '@mipmap/logo',
+    //     )));
   }
 }

@@ -3,28 +3,28 @@ import 'package:hive/hive.dart';
 part 'UserModel.g.dart';
 
 @HiveType(typeId: 0)
-class UserModel {
+class UserModel extends HiveObject {
   @HiveField(0)
-  final String name;
+  String name;
   @HiveField(1)
-  final String description;
+  String description;
   @HiveField(2)
-  final String startTime;
+  String startTime;
   @HiveField(3)
-  final String endTime;
+  String endTime;
   @HiveField(4)
-  final String date;
+  String date;
   @HiveField(5)
   int color;
   @HiveField(6)
-  final bool isCompleted;
+  late bool isCompleted = false;
 
   UserModel({
+    required this.name,
     required this.description,
     required this.startTime,
     required this.endTime,
     required this.date,
-    required this.name,
     required this.color,
     required this.isCompleted,
   });

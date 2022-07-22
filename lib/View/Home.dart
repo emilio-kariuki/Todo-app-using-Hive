@@ -1,9 +1,12 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:hives/Model/UserModel.dart';
+import 'package:hives/View/Completed.dart';
 import 'package:intl/intl.dart';
 
 import 'Add.dart';
@@ -21,19 +24,43 @@ class _HomeState extends State<Home> {
   final name = TextEditingController();
   final email = TextEditingController();
   DateTime _date = DateTime.now();
+
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
+  FocusNode _focusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: SizedBox(
+        height: 50,
+        width: 50,
+        child: FloatingActionButton(
+          backgroundColor: Colors.deepPurple,
+          onPressed: () {
+            Get.to(() => const Completed());
+          },
+          child: const Icon(
+            Icons.check,
+            size: 20,
+            color: Colors.white,
+          ),
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Column(
-              children: [
-                rowDate(),
-                dateTimeline(),
-                cartCard(),
-              ],
+          child: InkWell(
+            onTap: () {
+              FocusScope.of(context).requestFocus(FocusNode());
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Column(
+                children: [
+                  rowDate(),
+                  dateTimeline(),
+                  cartCard(),
+                ],
+              ),
             ),
           ),
         ),
@@ -120,6 +147,7 @@ class _HomeState extends State<Home> {
     return Flexible(
       flex: 1,
       child: TextFormField(
+        focusNode: _focusNode,
         keyboardType: TextInputType.text,
         decoration: InputDecoration(
             isDense: true,
