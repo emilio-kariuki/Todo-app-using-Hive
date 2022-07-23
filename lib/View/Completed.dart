@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -22,11 +23,16 @@ class _CompletedState extends State<Completed> {
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [getBack(), completedCard()],
+            children: [
+              getBack(),
+              Center(child: showTitle("Completed Tasks")),
+              const SizedBox(height: 5),
+              completedCard()
+            ],
           ),
         ),
       ),
@@ -47,6 +53,15 @@ class _CompletedState extends State<Completed> {
           size: 18,
         ),
       ),
+    );
+  }
+
+  Widget showTitle(String text) {
+    return Text(
+      text,
+      textAlign: TextAlign.center,
+      style: GoogleFonts.quicksand(
+          fontSize: 25, color: Colors.black87, fontWeight: FontWeight.bold),
     );
   }
 

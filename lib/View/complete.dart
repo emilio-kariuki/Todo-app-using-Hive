@@ -182,7 +182,7 @@ class _CompleteState extends State<Complete> {
     flutterLocalNotificationsPlugin.show(
         0,
         task.name,
-        "Task ${task.name} has been deleted",
+        "Task has been deleted",
         NotificationDetails(
             android: AndroidNotificationDetails(
           channel.id,
@@ -191,26 +191,25 @@ class _CompleteState extends State<Complete> {
           importance: Importance.high,
           color: Colors.blue,
           playSound: true,
-          icon: '@mipmap/logo',
+          icon: 'logo',
         )));
   }
 
   rollBack(UserModel task) {
     task.isCompleted = false;
     task.save();
-    // flutterLocalNotificationsPlugin.show(
-    //     0,
-    //     task.name,
-    //     "Task ${task.name} has been rolled back",
-    //     NotificationDetails(
-    //         android: AndroidNotificationDetails(
-    //       channel.id,
-    //       channel.name,
-    //       channelDescription: channel.description,
-    //       importance: Importance.high,
-    //       color: Colors.blue,
-    //       playSound: true,
-    //       icon: '@mipmap/logo',
-    //     )));
+    flutterLocalNotificationsPlugin.show(
+        0,
+        task.name,
+        "Task ${task.name} has been rolled back",
+        NotificationDetails(
+            android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          importance: Importance.low,
+          color: Colors.blue,
+          playSound: true,
+        )));
   }
 }

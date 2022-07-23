@@ -29,6 +29,8 @@ class _AddState extends State<Add> {
   String selectedDate = "select date";
   String selectedStart = "select time";
   String selectedEnd = "select time";
+  TimeOfDay start = TimeOfDay.now();
+  TimeOfDay end = TimeOfDay.now();
 
   @override
   void initState() {
@@ -49,7 +51,6 @@ class _AddState extends State<Add> {
                 channelDescription: channel.description,
                 color: Colors.blue,
                 playSound: true,
-                icon: 'assets/logo.png',
               ),
             ));
       }
@@ -171,7 +172,6 @@ class _AddState extends State<Add> {
           importance: Importance.high,
           color: Colors.blue,
           playSound: true,
-          icon: '@mipmap/logo',
         )));
   }
 
@@ -226,14 +226,6 @@ class _AddState extends State<Add> {
             widget: IconButton(
               icon: const Icon(Icons.access_time),
               onPressed: () async {
-                // showTimePicker(
-                //   context: context,
-                //   initialTime: TimeOfDay.now(),
-                // ).then((time) {
-                //   setState(() {
-                //     selectedEnd = tim
-                //   });
-                // });
                 String? token = await FirebaseMessaging.instance.getToken();
                 print('token: $token');
                 FocusScope.of(context).requestFocus(FocusNode());
@@ -250,6 +242,8 @@ class _AddState extends State<Add> {
                     });
                 if (result != null) {
                   setState(() {
+                    start = result;
+                    print("The time schedules to end is : $start");
                     selectedStart = result.format(context);
                   });
                 }
@@ -286,6 +280,8 @@ class _AddState extends State<Add> {
                     });
                 if (result != null) {
                   setState(() {
+                    end = result;
+                    print("The time schedules to end is : $end");
                     selectedEnd = result.format(context);
                   });
                 }

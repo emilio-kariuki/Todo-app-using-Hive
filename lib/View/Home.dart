@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -9,6 +10,7 @@ import 'package:hives/Model/UserModel.dart';
 import 'package:hives/View/Completed.dart';
 import 'package:intl/intl.dart';
 
+import '../main.dart';
 import 'Add.dart';
 import 'Boxes.dart';
 import 'widgets/Task.dart';
@@ -26,8 +28,7 @@ class _HomeState extends State<Home> {
   DateTime _date = DateTime.now();
 
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-  FocusNode _focusNode = FocusNode();
-
+  final _focusNode = FocusNode();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
